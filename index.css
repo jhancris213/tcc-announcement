@@ -39,7 +39,7 @@
 	.page-shell {
 		min-height: 100vh;
 		display: grid;
-		grid-template-columns: minmax(0, 1fr) minmax(420px, .9fr);
+		grid-template-columns: minmax(0, .95fr) minmax(520px, 1.05fr);
 		background: linear-gradient(135deg, rgba(8, 27, 57, .28), rgba(14, 42, 79, .42)), url("src/1.jpg") center / cover fixed no-repeat;
 	}
 
@@ -158,12 +158,12 @@
 		display: grid;
 		place-items: center;
 		min-height: 100vh;
-		padding: 34px clamp(24px, 5vw, 72px);
+		padding: 34px clamp(20px, 3vw, 56px);
 		background: transparent;
 	}
 
 	.auth-card {
-		width: min(100%, 500px);
+		width: min(100%, 580px);
 		padding: clamp(24px, 3.5vw, 36px);
 		border: 1px solid rgba(255, 255, 255, .78);
 		border-radius: 22px;
@@ -462,8 +462,8 @@
 		}
 
 		.brand-panel {
-			padding-right: 34px;
-			padding-left: 34px;
+			padding-right: 20px;
+			padding-left: 20px;
 		}
 
 		h1 {
@@ -476,7 +476,7 @@
 		}
 	}
 
-	@media (max-width: 680px) {
+	@media (max-width: 760px) {
 		.page-shell {
 			display: flex;
 			flex-direction: column;
@@ -628,7 +628,7 @@
 		}
 
 		.auth-card {
-			width: min(100%, 500px);
+			width: min(100%, 580px);
 		}
 
 		.auth-heading {
