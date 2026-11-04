@@ -49,10 +49,17 @@
     element.className = `status-message visible${kind ? ` ${kind}` : ''}`;
   };
   const clearStatus = (element) => { element.textContent = ''; element.className = 'status-message'; };
-  const normalizePhone = (value) => `+${value.replace(/\D/g, '')}`;
+  const normalizePhone = (value) => {
+    const digits = value.replace(/\D/g, '');
+    if (digits.startsWith('09') && digits.length === 11) return `+63${digits.slice(1)}`;
+    if (digits.startsWith('9') && digits.length === 10) return `+63${digits}`;
+    return `+${digits}`;
+  };
   const validInternationalShape = (value) => {
     const digits = value.replace(/\D/g, '');
-    return digits.length >= 8 && digits.length <= 15 && /^[1-9]/.test(digits);
+    return (digits.startsWith('09') && digits.length === 11)
+      || (digits.startsWith('9') && digits.length === 10)
+      || (digits.startsWith('639') && digits.length === 12);
   };
 
   function startCountdown() {
@@ -79,7 +86,7 @@
     }
     if (!validInternationalShape(phoneInput.value)) {
       phoneInput.setAttribute('aria-invalid', 'true');
-      setStatus(status, 'Enter a valid number in international format, including the country code (for example, 639171234567).', 'error');
+      setStatus(status, 'Enter a valid Philippine mobile number starting with 09, for example 09171234567.', 'error');
       phoneInput.focus();
       return;
     }
