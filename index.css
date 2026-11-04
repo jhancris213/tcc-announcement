@@ -39,18 +39,12 @@
 	.page-shell {
 		min-height: 100vh;
 		display: grid;
-		grid-template-columns: minmax(360px, 0.94fr) minmax(480px, 1.06fr);
+		grid-template-columns: minmax(0, 1fr);
+		background: linear-gradient(135deg, rgba(8, 27, 57, .58), rgba(14, 42, 79, .72)), url("src/1.jpg") center / cover fixed no-repeat;
 	}
 
 	.brand-panel {
-		position: relative;
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-		overflow: hidden;
-		padding: 38px clamp(32px, 6vw, 88px) 32px;
-		color: #fff;
-		background: linear-gradient(180deg, rgba(7, 23, 49, .48) 0%, rgba(7, 23, 49, .62) 55%, rgba(7, 23, 49, .88) 100%), url("src/1.jpg") center / cover no-repeat;
+		display: none;
 	}
 
 	.brand-copy,
@@ -153,8 +147,9 @@
 	.form-panel {
 		display: grid;
 		place-items: center;
+		min-height: 100vh;
 		padding: 34px clamp(24px, 5vw, 72px);
-		background: linear-gradient(135deg, rgba(8, 27, 57, .62), rgba(14, 42, 79, .78)), url("src/1.jpg") center / cover no-repeat;
+		background: transparent;
 	}
 
 	.auth-card {
@@ -503,7 +498,7 @@
 			margin: 0 -20px 24px;
 			padding: 18px 20px;
 			color: #fff;
-			background: linear-gradient(180deg, rgba(7, 23, 49, .34), rgba(7, 23, 49, .84)), url("src/1.jpg") center 48% / cover no-repeat;
+			background: transparent;
 		}
 
 		.mobile-institution-brand img {
