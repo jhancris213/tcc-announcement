@@ -100,7 +100,7 @@
       options: {
         channel: 'sms',
         data: {
-          username: document.querySelector('#signup-username').value.trim(),
+          username: document.querySelector('#signup-username').value.trim().toLowerCase(),
           full_name: document.querySelector('#full-name').value.trim(),
           program_code: document.querySelector('#signup-department').value
         }
@@ -163,16 +163,17 @@
       setStatus(status, 'Supabase is not connected yet. Add your project URL and publishable key in supabase/client-config.js.', 'error');
       return;
     }
-    const phone = document.querySelector('#login-username').value;
-    if (!validInternationalShape(phone)) {
-      setStatus(status, 'Enter your phone number in international format, including the country code.', 'error');
+    const username = document.querySelector('#login-username').value.trim().toLowerCase();
+    const password = document.querySelector('#login-password').value;
+    const { data, error } = await supabaseClient.functions.invoke('username-login', {
+      body: { username, password }
+    });
+    if (error || !data?.session) {
+      setStatus(status, 'Username or password is incorrect.', 'error');
       return;
     }
-    const { error } = await supabaseClient.auth.signInWithPassword({
-      phone: normalizePhone(phone),
-      password: document.querySelector('#login-password').value
-    });
-    if (error) setStatus(status, error.message, 'error');
+    const { error: sessionError } = await supabaseClient.auth.setSession(data.session);
+    if (sessionError) setStatus(status, 'Login failed. Please try again.', 'error');
     else setStatus(status, 'You are signed in successfully.', 'success');
   });
 
@@ -201,7 +202,7 @@
     }
 
     const previewProfile = {
-      username: document.querySelector('#signup-username').value.trim(),
+      username: document.querySelector('#signup-username').value.trim().toLowerCase(),
       name: document.querySelector('#full-name').value.trim(),
       phone: pendingPhone,
       programCode: document.querySelector('#signup-department').value,

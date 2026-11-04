@@ -47,9 +47,9 @@
 
         <section id="login-panel" role="tabpanel" aria-labelledby="login-tab">
           <form class="form" id="login-form" novalidate>
-            <div class="field"><label for="login-username">Phone number</label>
-              <div class="input-wrap"><input id="login-username" name="phone" type="tel" inputmode="tel" autocomplete="tel"
-                  placeholder="+63 912 345 6789" required></div>
+            <div class="field"><label for="login-username">Username</label>
+              <div class="input-wrap"><input id="login-username" name="username" type="text" autocomplete="username"
+                  placeholder="Enter your username" required></div>
             </div>
             <div class="field"><label for="login-password">Password</label>
               <div class="input-wrap has-action"><input id="login-password" name="password" type="password"
@@ -131,8 +131,6 @@
             </div>
             <div class="status-message" id="signup-status" role="status" aria-live="polite"></div>
             <button class="primary-button" id="signup-submit" type="submit" disabled>Verify number to sign up</button>
-            <p class="agreement">By continuing, you agree to receive school-related SMS alerts. Message and data rates
-              may apply.</p>
             <p class="form-note">Already have an account? <a href="#login" data-open-login>Log in</a></p>
           </form>
         </section>

@@ -1,2 +1,5 @@
 [functions.send-sms-hook]
 verify_jwt = false
+
+[functions.username-login]
+verify_jwt = false

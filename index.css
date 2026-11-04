@@ -154,10 +154,17 @@
 		display: grid;
 		place-items: center;
 		padding: 34px clamp(24px, 5vw, 72px);
+		background: linear-gradient(135deg, rgba(8, 27, 57, .62), rgba(14, 42, 79, .78)), url("src/1.jpg") center / cover no-repeat;
 	}
 
 	.auth-card {
-		width: min(100%, 470px);
+		width: min(100%, 520px);
+		padding: 32px;
+		border: 1px solid rgba(255, 255, 255, .78);
+		border-radius: 22px;
+		background: rgba(255, 255, 255, .97);
+		box-shadow: 0 28px 72px rgba(3, 15, 37, .38), 0 4px 14px rgba(3, 15, 37, .18);
+		backdrop-filter: blur(12px);
 	}
 
 	.auth-heading {
@@ -438,18 +445,6 @@
 		display: block;
 	}
 
-	.agreement {
-		margin: -3px 0 0;
-		color: #78859a;
-		font-size: .74rem;
-		line-height: 1.5;
-		text-align: center;
-	}
-
-	.agreement a {
-		color: var(--blue);
-	}
-
 	[hidden] {
 		display: none !important;
 	}
@@ -493,6 +488,7 @@
 		.auth-card {
 			max-width: 480px;
 			margin: auto;
+			padding: 26px 22px;
 		}
 
 		.auth-heading h2 {
@@ -607,10 +603,6 @@
 			width: min(100%, 500px);
 		}
 
-		.auth-card.signup-active {
-			width: min(100%, 720px);
-		}
-
 		.auth-heading {
 			margin-bottom: 13px;
 		}
@@ -661,7 +653,6 @@
 
 		.password-help,
 		.verification-hint,
-		.agreement,
 		.form-note {
 			font-size: .68rem;
 		}
@@ -675,7 +666,6 @@
 		.auth-card.signup-active #verification-field,
 		.auth-card.signup-active #signup-status,
 		.auth-card.signup-active #signup-submit,
-		.auth-card.signup-active .agreement,
 		.auth-card.signup-active .form-note {
 			grid-column: 1 / -1;
 		}
