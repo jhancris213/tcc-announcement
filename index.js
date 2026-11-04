@@ -14,7 +14,8 @@
   const verificationHint = document.querySelector('#verification-hint');
   const resendButton = document.querySelector('#resend-code');
   const signupButton = document.querySelector('#signup-submit');
-  let verifiedPhone = '';
+  const supabaseClient = window.tccSupabase;
+  let pendingPhone = '';
   let resendTimer;
 
   function setTab(mode) {
@@ -55,7 +56,7 @@
   };
 
   function startCountdown() {
-    let seconds = 30;
+    let seconds = 60;
     resendButton.disabled = true;
     resendButton.textContent = `Resend in ${seconds}s`;
     window.clearInterval(resendTimer);
@@ -69,83 +70,151 @@
     }, 1000);
   }
 
-  function requestDemoCode() {
+  async function requestVerificationCode() {
     const status = document.querySelector('#signup-status');
     clearStatus(status);
+    if (!supabaseClient) {
+      setStatus(status, 'Supabase is not connected yet. Add your project URL and publishable key in supabase/client-config.js.', 'error');
+      return;
+    }
     if (!validInternationalShape(phoneInput.value)) {
       phoneInput.setAttribute('aria-invalid', 'true');
-      setStatus(status, 'Enter a number in international format with 8–15 digits, including its country code.', 'error');
+      setStatus(status, 'Enter a valid number in international format, including the country code (for example, 639171234567).', 'error');
       phoneInput.focus();
       return;
     }
+    const requiredFields = ['#signup-username', '#full-name', '#signup-department', '#signup-password'];
+    for (const selector of requiredFields) {
+      const field = document.querySelector(selector);
+      if (!field.reportValidity()) return;
+    }
+
     phoneInput.removeAttribute('aria-invalid');
-    verifiedPhone = '';
+    pendingPhone = '';
     verificationInput.value = '';
     signupButton.disabled = true;
+    const phone = normalizePhone(phoneInput.value);
+    const { error } = await supabaseClient.auth.signUp({
+      phone,
+      password: document.querySelector('#signup-password').value,
+      options: {
+        channel: 'sms',
+        data: {
+          username: document.querySelector('#signup-username').value.trim(),
+          full_name: document.querySelector('#full-name').value.trim(),
+          program_code: document.querySelector('#signup-department').value
+        }
+      }
+    });
+    if (error) {
+      setStatus(status, error.message, 'error');
+      return;
+    }
+
+    pendingPhone = phone;
     verificationField.hidden = false;
     verificationHint.classList.add('visible');
-    setStatus(status, `Prototype only: no SMS was sent. Use 123456 to preview verification for ${normalizePhone(phoneInput.value)}.`, 'demo');
+    setStatus(status, `A real verification code was requested for ${phone}. Check your SMS messages.`, 'success');
     startCountdown();
     verificationInput.focus();
   }
 
-  document.querySelector('#send-code').addEventListener('click', requestDemoCode);
-  resendButton.addEventListener('click', requestDemoCode);
-  verificationInput.addEventListener('input', () => {
+  document.querySelector('#send-code').addEventListener('click', requestVerificationCode);
+  resendButton.addEventListener('click', async () => {
     const status = document.querySelector('#signup-status');
-    if (verificationInput.value === '123456' && verificationInput.value.length === 6) {
-      verifiedPhone = normalizePhone(phoneInput.value);
-      signupButton.disabled = false;
-      signupButton.firstChild.textContent = 'Create account ';
-      setStatus(status, 'Demo verification complete. This did not verify a real phone number or create an account.', 'demo');
-    } else {
-      verifiedPhone = '';
-      signupButton.disabled = true;
-      signupButton.firstChild.textContent = 'Verify number to sign up ';
-      if (verificationInput.value.length === 6) setStatus(status, 'That demo code is not correct. Try 123456.', 'error');
+    if (!supabaseClient || !pendingPhone) return;
+    resendButton.disabled = true;
+    const { error } = await supabaseClient.auth.resend({ type: 'sms', phone: pendingPhone });
+    if (error) {
+      resendButton.disabled = false;
+      resendButton.textContent = 'Resend code';
+      setStatus(status, error.message, 'error');
+      return;
     }
+    setStatus(status, `A new verification code was requested for ${pendingPhone}.`, 'success');
+    startCountdown();
   });
+
+  verificationInput.addEventListener('input', () => {
+    signupButton.disabled = !(/^\d{6}$/.test(verificationInput.value) && pendingPhone);
+    signupButton.firstChild.textContent = signupButton.disabled ? 'Verify number to sign up ' : 'Verify code and create account ';
+  });
+
   phoneInput.addEventListener('input', () => {
-    if (verifiedPhone && normalizePhone(phoneInput.value) !== verifiedPhone) {
-      verifiedPhone = '';
+    if (pendingPhone && normalizePhone(phoneInput.value) !== pendingPhone) {
+      pendingPhone = '';
       signupButton.disabled = true;
       signupButton.firstChild.textContent = 'Verify number to sign up ';
       verificationField.hidden = true;
       verificationHint.classList.remove('visible');
       window.clearInterval(resendTimer);
       resendButton.disabled = true;
-      resendButton.textContent = 'Resend in 30s';
+      resendButton.textContent = 'Resend in 60s';
       clearStatus(document.querySelector('#signup-status'));
     }
   });
 
-  loginForm.addEventListener('submit', (event) => {
+  loginForm.addEventListener('submit', async (event) => {
     event.preventDefault();
     const status = document.querySelector('#login-status');
     clearStatus(status);
-    if (loginForm.reportValidity()) setStatus(status, 'Login screen prototype only. Connect Supabase Auth to validate credentials and create a real session.', 'demo');
+    if (!loginForm.reportValidity()) return;
+    if (!supabaseClient) {
+      setStatus(status, 'Supabase is not connected yet. Add your project URL and publishable key in supabase/client-config.js.', 'error');
+      return;
+    }
+    const phone = document.querySelector('#login-username').value;
+    if (!validInternationalShape(phone)) {
+      setStatus(status, 'Enter your phone number in international format, including the country code.', 'error');
+      return;
+    }
+    const { error } = await supabaseClient.auth.signInWithPassword({
+      phone: normalizePhone(phone),
+      password: document.querySelector('#login-password').value
+    });
+    if (error) setStatus(status, error.message, 'error');
+    else setStatus(status, 'You are signed in successfully.', 'success');
   });
-  signupForm.addEventListener('submit', (event) => {
+
+  signupForm.addEventListener('submit', async (event) => {
     event.preventDefault();
     const status = document.querySelector('#signup-status');
     if (!signupForm.reportValidity()) return;
-    if (!verifiedPhone || normalizePhone(phoneInput.value) !== verifiedPhone) {
-      setStatus(status, 'Verify your contact number before signing up.', 'error');
+    if (!supabaseClient) {
+      setStatus(status, 'Supabase is not connected yet. Add your project URL and publishable key in supabase/client-config.js.', 'error');
       return;
     }
+    if (!pendingPhone || normalizePhone(phoneInput.value) !== pendingPhone) {
+      setStatus(status, 'Request a verification code for this phone number first.', 'error');
+      return;
+    }
+    signupButton.disabled = true;
+    const { data, error } = await supabaseClient.auth.verifyOtp({
+      phone: pendingPhone,
+      token: verificationInput.value,
+      type: 'sms'
+    });
+    if (error) {
+      signupButton.disabled = false;
+      setStatus(status, error.message, 'error');
+      return;
+    }
+
     const previewProfile = {
       username: document.querySelector('#signup-username').value.trim(),
       name: document.querySelector('#full-name').value.trim(),
-      phone: verifiedPhone,
-      programCode: document.querySelector('#signup-department').value
+      phone: pendingPhone,
+      programCode: document.querySelector('#signup-department').value,
+      userId: data.user?.id
     };
     try {
       localStorage.setItem('tcc-student-profile', JSON.stringify(previewProfile));
-      setStatus(status, 'Demo profile saved in this browser. Open student.html to preview announcements for the selected program. No real account or SMS was created.', 'demo');
+      setStatus(status, 'Your phone was verified and your account was created. You can now log in with your phone number and password.', 'success');
     } catch {
-      setStatus(status, 'Could not save the demo profile in this browser.', 'error');
+      setStatus(status, 'Your account was created, but this browser could not save the student preview profile.', 'error');
     }
   });
+
   document.addEventListener('keydown', (event) => {
     if (!['ArrowLeft', 'ArrowRight'].includes(event.key) || ![loginTab, signupTab].includes(document.activeElement)) return;
     event.preventDefault();

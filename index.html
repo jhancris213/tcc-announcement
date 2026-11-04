@@ -47,9 +47,9 @@
 
         <section id="login-panel" role="tabpanel" aria-labelledby="login-tab">
           <form class="form" id="login-form" novalidate>
-            <div class="field"><label for="login-username">Username</label>
-              <div class="input-wrap"><input id="login-username" name="username" type="text" autocomplete="username"
-                  placeholder="Enter your username" required></div>
+            <div class="field"><label for="login-username">Phone number</label>
+              <div class="input-wrap"><input id="login-username" name="phone" type="tel" inputmode="tel" autocomplete="tel"
+                  placeholder="+63 912 345 6789" required></div>
             </div>
             <div class="field"><label for="login-password">Password</label>
               <div class="input-wrap has-action"><input id="login-password" name="password" type="password"
@@ -114,10 +114,9 @@
                 <div class="input-wrap"><input id="verification-code" name="verificationCode" type="text"
                     inputmode="numeric" autocomplete="one-time-code" placeholder="Enter 6-digit code" maxlength="6"
                     pattern="[0-9]{6}" aria-describedby="verification-hint"></div><button class="secondary-button"
-                  id="resend-code" type="button" disabled>Resend in 30s</button>
+                  id="resend-code" type="button" disabled>Resend in 60s</button>
               </div>
-              <p class="verification-hint" id="verification-hint">Demo only: use <strong>123456</strong>. A real SMS
-                code requires a configured SMS provider.</p>
+              <p class="verification-hint" id="verification-hint">Enter the six-digit code sent to your phone by SMS.</p>
             </div>
             <div class="field"><label for="signup-password">Password</label>
               <div class="input-wrap has-action"><input id="signup-password" name="password" type="password"
@@ -141,6 +140,8 @@
     </section>
   </main>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase/client-config.js"></script>
   <script src="index.js" defer></script>
 </body>
 
