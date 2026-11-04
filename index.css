@@ -39,12 +39,17 @@
 	.page-shell {
 		min-height: 100vh;
 		display: grid;
-		grid-template-columns: minmax(0, 1fr);
+		grid-template-columns: minmax(0, 1fr) minmax(420px, .9fr);
 		background: linear-gradient(135deg, rgba(8, 27, 57, .58), rgba(14, 42, 79, .72)), url("src/1.jpg") center / cover fixed no-repeat;
 	}
 
 	.brand-panel {
-		display: none;
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		padding: 38px clamp(32px, 6vw, 88px) 32px;
+		color: #fff;
 	}
 
 	.brand-copy,
@@ -446,7 +451,7 @@
 
 	@media (max-width: 900px) {
 		.page-shell {
-			grid-template-columns: minmax(280px, .75fr) minmax(400px, 1.25fr);
+			grid-template-columns: minmax(0, .75fr) minmax(0, 1.25fr);
 		}
 
 		.brand-panel {
@@ -466,10 +471,31 @@
 
 	@media (max-width: 680px) {
 		.page-shell {
-			display: block;
+			display: flex;
+			flex-direction: column;
 		}
 
 		.brand-panel {
+			display: block;
+			padding: 28px 20px 0;
+		}
+
+		.brand-copy {
+			padding: 0;
+		}
+
+		.brand-copy h1 {
+			font-size: 2.2rem;
+		}
+
+		.brand-copy>p:not(.eyebrow) {
+			margin-top: 12px;
+			font-size: .9rem;
+		}
+
+		.feature-list,
+		.brand-footer,
+		.mobile-institution-brand {
 			display: none;
 		}
 
