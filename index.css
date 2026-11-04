@@ -142,14 +142,17 @@
 		align-items: center;
 		gap: 12px;
 		margin: 0;
-		padding: 10px 0;
+		padding: 9px 14px;
+		border-left: 3px solid var(--gold);
+		border-radius: 12px;
 		color: #fff;
-		background: transparent;
+		background: rgba(0, 0, 0, .68);
+		backdrop-filter: blur(3px);
 	}
 
 	.brand-footer img {
-		width: 64px;
-		height: 64px;
+		width: 72px;
+		height: 72px;
 		flex: 0 0 auto;
 		object-fit: contain;
 		border-radius: 50%;
@@ -160,7 +163,7 @@
 	.mobile-institution-brand p {
 		max-width: none;
 		margin: 0;
-		font-size: .82rem;
+		font-size: 1rem;
 		font-weight: 850;
 		line-height: 1.4;
 		white-space: nowrap;
@@ -521,8 +524,7 @@
 		}
 
 		.feature-list,
-		.brand-footer,
-		.mobile-institution-brand {
+		.brand-footer {
 			display: none;
 		}
 
@@ -545,18 +547,23 @@
 
 		.mobile-institution-brand {
 			display: flex;
-			min-height: 156px;
-			align-items: flex-end;
-			gap: 12px;
-			margin: 0 -20px 24px;
-			padding: 18px 20px;
+			width: fit-content;
+			max-width: 100%;
+			min-height: 0;
+			align-items: center;
+			gap: 10px;
+			margin: 18px 0 24px;
+			padding: 9px 12px;
+			border-left: 3px solid var(--gold);
+			border-radius: 12px;
 			color: #fff;
-			background: transparent;
+			background: rgba(0, 0, 0, .68);
+			backdrop-filter: blur(3px);
 		}
 
 		.mobile-institution-brand img {
-			width: 58px;
-			height: 58px;
+			width: 66px;
+			height: 66px;
 			flex: 0 0 auto;
 			object-fit: contain;
 			border-radius: 50%;
@@ -564,8 +571,15 @@
 		}
 
 		.mobile-institution-brand p {
-			max-width: 240px;
+			font-size: .76rem;
+		}
+	}
+
+	@media (max-width: 430px) {
+		.mobile-institution-brand p {
+			max-width: 235px;
 			font-size: .68rem;
+			white-space: normal;
 		}
 	}
 
@@ -632,16 +646,16 @@
 
 		.brand-footer {
 			gap: 8px;
-			padding: 7px 0;
+			padding: 7px 10px;
 		}
 
 		.brand-footer img {
-			width: 40px;
-			height: 40px;
+			width: 56px;
+			height: 56px;
 		}
 
 		.brand-footer p {
-			font-size: clamp(.56rem, .85vw, .7rem);
+			font-size: clamp(.62rem, .9vw, .8rem);
 		}
 
 		.form-panel {
