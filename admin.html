@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#102c5c">
+  <title>Admin Dashboard — TCC Announcement</title>
+  <link rel="stylesheet" href="admin.css">
+</head>
+
+<body>
+  <div class="app">
+    <aside class="sidebar" aria-label="Admin sidebar">
+      <a class="brand" href="#dashboard"><span class="brand-icon"><img src="src/logo.png"
+            alt="Talisay City College logo"></span>TCC Announcement</a>
+      <p class="nav-caption">Workspace</p>
+      <nav class="nav-list" aria-label="Main navigation">
+        <button class="nav-item active" type="button" data-view="dashboard"><span
+            class="nav-icon">⌂</span>Dashboard</button>
+        <button class="nav-item" type="button" data-view="students"><span class="nav-icon">▤</span>Student
+          masterlist</button>
+        <button class="nav-item" type="button" data-view="announcements"><span
+            class="nav-icon">✉</span>Announcements</button>
+      </nav>
+      <p class="nav-caption">Departments</p>
+      <nav class="nav-list dept-nav" id="sidebar-departments" aria-label="Filter by department"></nav>
+      <div class="sidebar-bottom">
+        <div class="admin-card"><span class="avatar">AD</span><span><strong>School
+              Admin</strong><small>Administrator</small></span></div><button class="logout" id="logout-button"
+          type="button">Log out</button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <h1>Admin dashboard</h1>
+          <p>Prototype preview · access control, student records, and SMS delivery are not connected.</p>
+        </div>
+        <div class="top-actions"><span class="date-label" id="date-label"></span></div>
+      </header>
+      <div id="dashboard-view" class="dashboard-view">
+        <section class="welcome">
+          <div>
+            <p class="eyebrow">Campus communications</p>
+            <h2>Good day, Administrator</h2>
+            <p>Send timely school updates to all students or a selected program.</p>
+          </div><button class="gold-button" type="button" data-compose><svg viewBox="0 0 24 24" fill="none"
+              aria-hidden="true">
+              <path d="M12 5v14m-7-7h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>Make an announcement</button>
+        </section>
+        <section class="stats" aria-label="Dashboard totals">
+          <article class="stat"><span class="stat-icon">▦</span><span><strong
+                id="program-total">12</strong><span>Programs and majors</span></span></article>
+          <article class="stat"><span class="stat-icon">♙</span><span><strong
+                id="student-total">12</strong><span>Student accounts in demo</span></span></article>
+          <article class="stat"><span class="stat-icon">✉</span><span><strong
+                id="announcement-total">0</strong><span>Announcements this session</span></span></article>
+        </section>
+
+        <section aria-labelledby="departments-heading">
+          <div class="section-heading">
+            <div>
+              <h2 id="departments-heading">Departments &amp; programs</h2>
+              <p>Choose a department to target an alert and review its masterlist.</p>
+            </div><button class="link-button" id="new-department-button" type="button">＋ New department</button>
+          </div>
+          <div class="filters" role="group" aria-label="Filter department cards"><button type="button"
+              class="chip active" data-category="All">All</button><button type="button" class="chip"
+              data-category="Education">Education</button><button type="button" class="chip"
+              data-category="IT">IT</button><button type="button" class="chip" data-category="HM">HM</button><button
+              type="button" class="chip" data-category="Business">Business</button></div>
+          <div class="departments" id="department-grid"></div>
+        </section>
+
+      </div>
+      <section class="announcements-view" id="announcements-view" hidden aria-label="Announcements">
+        <section class="panel announcements-history">
+          <header class="panel-heading">
+            <div>
+              <h2 id="recent-heading" tabindex="-1">Recent announcements</h2>
+              <p>Previously composed school updates.</p>
+            </div><button class="gold-button" type="button" data-compose>New announcement</button>
+          </header>
+          <div class="recent-list" id="recent-list">
+            <p class="empty">No announcements yet. Create one to see it listed here.</p>
+          </div>
+        </section>
+      </section>
+
+      <section class="students-view" id="students-view" hidden aria-labelledby="students-heading">
+        <div class="section-heading">
+          <div>
+            <h2 id="students-heading">Student masterlist</h2>
+            <p>Search, select, and manage accounts for a department.</p>
+          </div><button class="link-button" id="new-department-from-roster" type="button">＋ New department</button>
+        </div>
+        <div class="table-toolbar">
+          <div class="toolbar-left"><select id="roster-department" aria-label="Select department"></select><input
+              id="student-search" type="search" placeholder="Search name or student ID"
+              aria-label="Search student accounts"></div>
+          <div class="toolbar-right"><span class="selection-count" id="selection-count">0 selected</span><button
+              class="danger-button" id="delete-selected" type="button" disabled>Delete selected</button></div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th><input id="select-all" type="checkbox" aria-label="Select all visible student accounts"></th>
+                <th>Student</th>
+                <th>Username</th>
+                <th>Department / program</th>
+                <th>Contact number</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="student-rows"></tbody>
+          </table>
+          <div class="no-results" id="no-students" hidden>No student accounts match this filter.</div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <dialog class="dialog" id="department-dialog" aria-labelledby="dialog-title">
+    <div class="dialog-inner">
+      <header class="dialog-top">
+        <div>
+          <h2 id="dialog-title">Add a department</h2>
+          <p>Add a department or program to this prototype.</p>
+        </div><button class="close-dialog" id="close-dialog" type="button" aria-label="Close dialog">×</button>
+      </header>
+      <form class="dialog-form" id="department-form"><label for="new-department-name">Department or program name<input
+            id="new-department-name" name="name" type="text" maxlength="80"
+            placeholder="e.g. Bachelor of Science in Nursing" required></label><label
+          for="new-department-category">Department group<select id="new-department-category" name="category">
+            <option>Education</option>
+            <option>IT</option>
+            <option>HM</option>
+            <option>Business</option>
+            <option>Other</option>
+          </select></label>
+        <div class="dialog-actions"><button class="button-outline" id="cancel-dialog"
+            type="button">Cancel</button><button class="gold-button" type="submit">Add department</button></div>
+      </form>
+    </div>
+  </dialog>
+  <dialog class="dialog announcement-dialog" id="announcement-dialog" aria-labelledby="announcement-dialog-title">
+    <div class="dialog-inner">
+      <header class="dialog-top">
+        <div>
+          <h2 id="announcement-dialog-title">New announcement</h2>
+          <p>Choose an audience and write your message.</p>
+        </div>
+        <button class="close-dialog" id="close-announcement-dialog" type="button" aria-label="Close dialog">×</button>
+      </header>
+      <form class="composer" id="announcement-form">
+        <label for="announcement-title">Title<input id="announcement-title" name="title" type="text" maxlength="90"
+            placeholder="e.g. Campus event schedule update" required></label>
+        <label for="announcement-message">Message<textarea id="announcement-message" name="message" maxlength="500"
+            placeholder="Write your announcement for students…" required></textarea></label>
+        <div class="composer-row">
+          <label for="announcement-type">Type of event<select id="announcement-type" name="type">
+              <option value="info">Info</option>
+              <option value="event">Event</option>
+              <option value="critical">Critical</option>
+            </select></label>
+          <label for="announcement-target">Send to<select id="announcement-target" name="target"></select></label>
+        </div>
+        <span class="target-badge" id="target-badge">All departments</span>
+        <button class="dispatch" type="submit">Dispatch announcement</button>
+        <p class="prototype-note">Prototype only: this creates a preview. It does not send SMS until a backend and SMS
+          provider are connected.</p>
+      </form>
+    </div>
+  </dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+  <script src="admin.js" defer></script>
+</body>
+
+</html>

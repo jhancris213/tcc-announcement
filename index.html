@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#102c5c">
+  <title>SMS School Event Alert Notification System</title>
+  <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+  <main class="page-shell">
+    <aside class="brand-panel" aria-label="About Talisay City College">
+      <section class="brand-copy">
+        <p class="eyebrow">Stay in the know</p>
+        <h1>Every school moment, right on time.</h1>
+        <p>Get timely text alerts for campus events, schedule changes, and important school announcements.</p>
+        <ul class="feature-list">
+          <li>Important updates sent straight to your phone</li>
+          <li>One trusted place for school event alerts</li>
+          <li>Verified contact details help keep alerts reliable</li>
+        </ul>
+      </section>
+      <footer class="brand-footer">
+        <img src="src/logo.png" alt="Talisay City College logo">
+        <p>SMS BASED SCHOOL EVENT ALERT NOTIFICATION SYSTEM</p>
+      </footer>
+    </aside>
+
+    <section class="form-panel" aria-label="Account access">
+      <footer class="mobile-institution-brand">
+        <img src="src/logo.png" alt="Talisay City College logo">
+        <p>SMS BASED SCHOOL EVENT ALERT NOTIFICATION SYSTEM</p>
+      </footer>
+      <div class="auth-card">
+        <header class="auth-heading">
+          <h2 id="form-title">Welcome back</h2>
+          <p id="form-subtitle">Log in to keep up with what's happening at school.</p>
+        </header>
+        <div class="tabs" role="tablist" aria-label="Choose account action">
+          <button class="tab" id="login-tab" type="button" role="tab" aria-selected="true"
+            aria-controls="login-panel">Log in</button>
+          <button class="tab" id="signup-tab" type="button" role="tab" aria-selected="false"
+            aria-controls="signup-panel" tabindex="-1">Sign up</button>
+        </div>
+
+        <section id="login-panel" role="tabpanel" aria-labelledby="login-tab">
+          <form class="form" id="login-form" novalidate>
+            <div class="field"><label for="login-username">Username</label>
+              <div class="input-wrap"><input id="login-username" name="username" type="text" autocomplete="username"
+                  placeholder="Enter your username" required></div>
+            </div>
+            <div class="field"><label for="login-password">Password</label>
+              <div class="input-wrap has-action"><input id="login-password" name="password" type="password"
+                  autocomplete="current-password" placeholder="Enter your password" required><button
+                  class="toggle-password" type="button" aria-label="Show password" aria-pressed="false"
+                  data-target="login-password"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M2.5 12s3.4-6 9.5-6 9.5 6 9.5 6-3.4 6-9.5 6-9.5-6-9.5-6Z" stroke="currentColor"
+                      stroke-width="1.7" />
+                    <circle cx="12" cy="12" r="2.7" stroke="currentColor" stroke-width="1.7" />
+                  </svg></button></div>
+            </div>
+            <div class="status-message" id="login-status" role="status" aria-live="polite"></div>
+            <button class="primary-button" type="submit">Log in</button>
+            <div class="separator">Secure school updates</div>
+            <p class="form-note">New to school alerts? <a href="#signup" data-open-signup>Make an account</a></p>
+          </form>
+        </section>
+
+        <section id="signup-panel" role="tabpanel" aria-labelledby="signup-tab" hidden>
+          <form class="form" id="signup-form" novalidate>
+            <div class="field"><label for="signup-username">Username</label>
+              <div class="input-wrap"><input id="signup-username" name="username" type="text" autocomplete="username"
+                  placeholder="Choose a username" minlength="3" required></div>
+            </div>
+            <div class="field"><label for="full-name">Full name</label>
+              <div class="input-wrap"><input id="full-name" name="fullName" type="text" autocomplete="name"
+                  placeholder="Enter your full name" required></div>
+            </div>
+            <div class="field"><label for="signup-department">Department / program</label>
+              <div class="input-wrap"><select id="signup-department" name="department" autocomplete="organization-title"
+                  required>
+                  <option value="" selected disabled>Select your department or program</option>
+                  <option value="BEEd">Bachelor of Elementary Education (BEEd)</option>
+                  <option value="BSEd-English">Bachelor of Secondary Education (BSEd) — Major in English</option>
+                  <option value="BSEd-Filipino">Bachelor of Secondary Education (BSEd) — Major in Filipino</option>
+                  <option value="BSEd-Mathematics">Bachelor of Secondary Education (BSEd) — Major in Mathematics
+                  </option>
+                  <option value="BSEd-Social-Studies">Bachelor of Secondary Education (BSEd) — Major in Social Studies
+                  </option>
+                  <option value="BSEd-Science">Bachelor of Secondary Education (BSEd) — Major in Science</option>
+                  <option value="BSHM">Bachelor of Science in Hospitality Management (BSHM)</option>
+                  <option value="InTech-Computer">Bachelor of Science in Industrial Technology (BS InTech) — Major in
+                    Computer Technology</option>
+                  <option value="InTech-Electronics">Bachelor of Science in Industrial Technology (BS InTech) — Major in
+                    Electronics Technology</option>
+                  <option value="BSBA">Bachelor of Science in Business Administration (BSBA)</option>
+                  <option value="BSIS">Bachelor of Science in Information Systems (BSIS)</option>
+                  <option value="BPEd">Bachelor of Physical Education (BPEd)</option>
+                </select></div>
+            </div>
+            <div class="field"><label for="contact-number">Contact number</label>
+              <div class="phone-row">
+                <div class="input-wrap with-prefix"><span class="country-code" aria-hidden="true">+</span><input
+                    id="contact-number" name="phone" type="tel" inputmode="tel" autocomplete="tel"
+                    placeholder="63 912 345 6789" aria-describedby="phone-help" required></div><button
+                  class="secondary-button" id="send-code" type="button">Send code</button>
+              </div>
+              <p class="password-help" id="phone-help">Include your country code, e.g. +63 912 345 6789.</p>
+            </div>
+            <div class="field" id="verification-field" hidden><label for="verification-code">Verification code</label>
+              <div class="verification-row">
+                <div class="input-wrap"><input id="verification-code" name="verificationCode" type="text"
+                    inputmode="numeric" autocomplete="one-time-code" placeholder="Enter 6-digit code" maxlength="6"
+                    pattern="[0-9]{6}" aria-describedby="verification-hint"></div><button class="secondary-button"
+                  id="resend-code" type="button" disabled>Resend in 30s</button>
+              </div>
+              <p class="verification-hint" id="verification-hint">Demo only: use <strong>123456</strong>. A real SMS
+                code requires a configured SMS provider.</p>
+            </div>
+            <div class="field"><label for="signup-password">Password</label>
+              <div class="input-wrap has-action"><input id="signup-password" name="password" type="password"
+                  autocomplete="new-password" placeholder="Create a password" minlength="8" required><button
+                  class="toggle-password" type="button" aria-label="Show password" aria-pressed="false"
+                  data-target="signup-password"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M2.5 12s3.4-6 9.5-6 9.5 6 9.5 6-3.4 6-9.5 6-9.5-6-9.5-6Z" stroke="currentColor"
+                      stroke-width="1.7" />
+                    <circle cx="12" cy="12" r="2.7" stroke="currentColor" stroke-width="1.7" />
+                  </svg></button></div>
+              <p class="password-help">Use at least 8 characters.</p>
+            </div>
+            <div class="status-message" id="signup-status" role="status" aria-live="polite"></div>
+            <button class="primary-button" id="signup-submit" type="submit" disabled>Verify number to sign up</button>
+            <p class="agreement">By continuing, you agree to receive school-related SMS alerts. Message and data rates
+              may apply.</p>
+            <p class="form-note">Already have an account? <a href="#login" data-open-login>Log in</a></p>
+          </form>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <script src="index.js" defer></script>
+</body>
+
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#102c5c">
+  <title>Student Home — TCC Announcement</title>
+  <link rel="stylesheet" href="student.css">
+  <script src="student.js" defer></script>
+</head>
+
+<body>
+  <div class="student-layout">
+    <aside class="sidebar" id="student-sidebar" aria-label="Student account">
+      <a class="brand" href="#home"><span class="brand-mark"><img src="src/logo.png"
+            alt="Talisay City College logo"></span><span>TCC Announcement</span></a>
+      <p class="sidebar-caption">Student home</p>
+      <nav class="sidebar-nav" aria-label="Student pages">
+        <button class="sidebar-nav-item active" type="button" data-page="home">Home</button>
+        <button class="sidebar-nav-item" type="button" data-page="settings">Account settings</button>
+      </nav>
+      <div class="student-card"><span class="avatar" id="student-avatar">JC</span>
+        <div><strong id="student-name">Jamie Cruz</strong><small>Student account</small></div>
+      </div>
+      <div class="sidebar-bottom"><a class="logout" href="index.html" aria-label="Log out" title="Log out"><svg
+            viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M10 17l5-5-5-5m5 5H3m9-9h6a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-6" stroke="currentColor"
+              stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+          </svg><span class="logout-label">Log out</span></a>
+        <p>School event alerts</p>
+      </div>
+    </aside>
+
+    <main class="main" id="home">
+      <header class="mobile-menu-header"><button class="mobile-menu-toggle" id="mobile-menu-toggle" type="button"
+          aria-label="Open navigation" aria-controls="student-sidebar" aria-expanded="false"
+          title="Open navigation"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+          </svg></button><span class="mobile-menu-brand"><img src="src/logo.png"
+            alt="Talisay City College logo"><span>TCC Announcement</span></span></header>
+      <div class="home-view" id="home-view">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Campus updates</p>
+            <h1>Welcome back, Jamie</h1>
+          </div>
+          <div class="topbar-right"><span id="today-date"></span><span class="program-pill">BEEd</span></div>
+        </header>
+        <section class="welcome">
+          <div>
+            <p class="eyebrow">Your school, in the loop</p>
+            <h2>Announcements that matter to you.</h2>
+            <p>See updates for everyone at school and for your department.</p>
+          </div><span class="welcome-icon" aria-hidden="true">!</span>
+        </section>
+        <section class="summary" aria-label="Your announcements">
+          <article><span class="summary-icon critical">!</span>
+            <div><strong id="critical-count">0</strong><small>Critical notices</small></div>
+          </article>
+          <article><span class="summary-icon event">E</span>
+            <div><strong id="event-count">0</strong><small>Department events</small></div>
+          </article>
+          <article><span class="summary-icon info">i</span>
+            <div><strong id="announcement-count">0</strong><small>Total updates</small></div>
+          </article>
+        </section>
+
+        <div class="feed-layout">
+          <section class="feed-section" aria-labelledby="all-heading">
+            <header class="section-heading">
+              <div>
+                <h2 id="all-heading">For everyone</h2>
+                <p>Announcements sent to all departments.</p>
+              </div><span class="section-count" id="all-count">0</span>
+            </header>
+            <div class="feed" id="all-feed"></div>
+          </section>
+          <section class="feed-section" aria-labelledby="department-heading">
+            <header class="section-heading">
+              <div>
+                <h2 id="department-heading">For the Education department</h2>
+                <p id="department-label">Bachelor of Elementary Education (BEEd)</p>
+              </div><span class="section-count" id="department-count">0</span>
+            </header>
+            <div class="feed" id="department-feed"></div>
+          </section>
+        </div>
+        <footer class="footer-note">TCC Announcement <span aria-hidden="true">·</span> Messages shown are prototype
+          previews.
+        </footer>
+      </div>
+      <section class="settings-view" id="settings-view" aria-labelledby="settings-title" hidden>
+        <header class="settings-heading">
+          <p class="eyebrow">Student account</p>
+          <h1 id="settings-title">Account settings</h1>
+          <p>Update the name and phone number associated with this demo profile.</p>
+        </header>
+        <form class="settings-form" id="account-settings-form">
+          <div class="settings-fields">
+            <label for="profile-name">Full name<input id="profile-name" name="name" type="text" autocomplete="name"
+                maxlength="80" required></label>
+            <label for="profile-phone">Phone number<input id="profile-phone" name="phone" type="tel" autocomplete="tel"
+                inputmode="tel" placeholder="+63 912 345 6789" required></label>
+          </div>
+          <p class="settings-note">Phone changes are saved in this browser only. Real phone verification is not
+            connected.</p>
+          <div class="settings-actions"><button class="save-button" type="submit">Save changes</button></div>
+          <p class="settings-status" id="settings-status" role="status" aria-live="polite"></p>
+        </form>
+        <section class="delete-section" aria-labelledby="delete-heading">
+          <div>
+            <h2 id="delete-heading">Delete account</h2>
+            <p>Remove this demo profile from this browser and return to the login page.</p>
+          </div><button class="delete-button" id="open-delete-dialog" type="button">Delete account</button>
+        </section>
+        <footer class="footer-note">TCC Announcement <span aria-hidden="true">·</span> Account settings are
+          prototype-only.
+        </footer>
+      </section>
+    </main>
+  </div>
+  <dialog class="confirm-dialog" id="delete-dialog" aria-labelledby="delete-dialog-title">
+    <form method="dialog" class="confirm-content">
+      <h2 id="delete-dialog-title">Delete this demo account?</h2>
+      <p>This removes the saved demo name and phone from this browser. It will not delete a real TCC Announcement
+        account.</p>
+      <div class="confirm-actions"><button class="cancel-button" value="cancel">Keep account</button><button
+          class="delete-button" id="confirm-delete" type="button">Delete demo account</button></div>
+    </form>
+  </dialog>
+</body>
+
+</html>
