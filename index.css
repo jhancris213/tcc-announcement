@@ -40,7 +40,7 @@
 		min-height: 100vh;
 		display: grid;
 		grid-template-columns: minmax(0, 1fr) minmax(420px, .9fr);
-		background: linear-gradient(135deg, rgba(8, 27, 57, .58), rgba(14, 42, 79, .72)), url("src/1.jpg") center / cover fixed no-repeat;
+		background: linear-gradient(135deg, rgba(8, 27, 57, .28), rgba(14, 42, 79, .42)), url("src/1.jpg") center / cover fixed no-repeat;
 	}
 
 	.brand-panel {
@@ -60,7 +60,8 @@
 
 	.brand-copy {
 		max-width: 500px;
-		padding: 64px 0;
+		margin-block: auto;
+		padding: 0;
 		background: transparent;
 	}
 
@@ -87,7 +88,8 @@
 		max-width: 540px;
 		margin: 0;
 		padding: 0;
-		font-size: clamp(2.5rem, 4.5vw, 4.2rem);
+		color: #fff;
+		font-size: clamp(2.8rem, 3.8vw, 3.5rem);
 		line-height: 1.08;
 		letter-spacing: -.055em;
 		background: transparent;
