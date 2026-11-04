@@ -137,14 +137,14 @@
 
 	.brand-footer {
 		display: flex;
+		width: fit-content;
 		max-width: 100%;
 		align-items: center;
 		gap: 12px;
 		margin: 0;
-		padding: 10px 13px;
-		border-left: 3px solid var(--gold);
+		padding: 10px 0;
 		color: #fff;
-		background: rgba(5, 20, 43, .76);
+		background: transparent;
 	}
 
 	.brand-footer img {
@@ -158,11 +158,12 @@
 
 	.brand-footer p,
 	.mobile-institution-brand p {
-		max-width: 250px;
+		max-width: none;
 		margin: 0;
-		font-size: .7rem;
+		font-size: .82rem;
 		font-weight: 850;
 		line-height: 1.4;
+		white-space: nowrap;
 		text-transform: uppercase;
 	}
 
@@ -630,16 +631,17 @@
 		}
 
 		.brand-footer {
-			padding: 7px 10px;
+			gap: 8px;
+			padding: 7px 0;
 		}
 
 		.brand-footer img {
-			width: 48px;
-			height: 48px;
+			width: 40px;
+			height: 40px;
 		}
 
 		.brand-footer p {
-			font-size: .62rem;
+			font-size: clamp(.56rem, .85vw, .7rem);
 		}
 
 		.form-panel {
