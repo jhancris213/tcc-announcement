@@ -59,9 +59,11 @@ create table if not exists public.profiles (
   sms_opt_in boolean not null default false,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
-  check (role = 'admin' or program_id is not null),
   check (phone_number is null or phone_number ~ '^\+[1-9][0-9]{7,14}$')
 );
+
+-- Manually-created Auth users can be assigned a program after their profile exists.
+alter table public.profiles drop constraint if exists profiles_check;
 
 create unique index if not exists profiles_username_lower_uidx
   on public.profiles (lower(username));
@@ -182,18 +184,29 @@ begin
   v_full_name := nullif(trim(new.raw_user_meta_data ->> 'full_name'), '');
   v_program_code := nullif(trim(new.raw_user_meta_data ->> 'program_code'), '');
 
-  if new.phone is null or v_username is null or v_full_name is null or v_program_code is null then
-    raise exception 'Phone, username, full name, and program are required';
-  end if;
+  -- Auth Dashboard-created users commonly have no user_metadata. Give them a
+  -- usable placeholder profile, then let an admin assign their proper details.
+  v_username := coalesce(
+    v_username,
+    nullif(regexp_replace(coalesce(new.phone, ''), '[^0-9]', '', 'g'), ''),
+    'user_' || left(replace(new.id::text, '-', ''), 12)
+  );
+  v_full_name := coalesce(
+    v_full_name,
+    nullif(trim(new.raw_user_meta_data ->> 'name'), ''),
+    'New user'
+  );
 
-  select p.id
-    into v_program_id
-    from public.programs as p
-   where p.code = v_program_code
-     and p.is_active;
+  if v_program_code is not null then
+    select p.id
+      into v_program_id
+      from public.programs as p
+     where p.code = v_program_code
+       and p.is_active;
 
-  if v_program_id is null then
-    raise exception 'The selected program is not available';
+    if v_program_id is null then
+      raise exception 'The selected program is not available';
+    end if;
   end if;
 
   insert into public.profiles (user_id, username, full_name, phone_number, phone_verified_at, program_id)
